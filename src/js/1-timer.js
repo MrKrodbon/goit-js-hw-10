@@ -17,6 +17,13 @@ class Timer {
     this.minutes = document.querySelector('span[data-minutes]');
     this.seconds = document.querySelector('span[data-seconds]');
   }
+
+  addLeadingZero() {
+    this.days.textContent = this.days.textContent.padStart(2, '0');
+    this.hours.textContent = this.hours.textContent.padStart(2, '0');
+    this.minutes.textContent = this.minutes.textContent.padStart(2, '0');
+    this.seconds.textContent = this.seconds.textContent.padStart(2, '0');
+  }
 }
 
 const options = {
@@ -41,7 +48,8 @@ flatpickr(inputDate, options);
 flatpickr('.calendar', {});
 
 const onStartClick = () => {
-  if (Timer.isTimerActive) {
+  const timer = new Timer();
+  if (timer.isTimerActive) {
     return;
   } else {
     startBtn.disabled = true;
@@ -50,10 +58,13 @@ const onStartClick = () => {
       const currentDate = new Date();
       let secondsInFuture = userSelectedDate - currentDate;
       if (secondsInFuture <= 0) {
+        startBtn.disabled = false;
+        inputDate.disabled = false;
         clearInterval(timerId);
       } else {
         let countdownTimeLeft = convertMs(secondsInFuture);
         updateTimer(countdownTimeLeft);
+        timer.addLeadingZero();
       }
     }, 1000);
   }
