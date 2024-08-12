@@ -17,11 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-const createPromise = delay => {
+const createPromise = (delay, state = false) => {
   return new Promise((resolve, rejected) => {
     setTimeout(() => {
-      if (resolve) {
-        resolve('ok');
+      if (state) {
+        resolve(
+          iziToast.success({
+            timeout: 3000,
+            title: 'Success',
+            message: `✅ Fulfilled promise in ${delay}ms`,
+          })
+        );
       } else {
         rejected(
           iziToast.error({
@@ -36,4 +42,5 @@ const createPromise = delay => {
   });
 };
 
-createPromise(1000);
+createPromise(1000, false);
+createPromise(1000, true);
