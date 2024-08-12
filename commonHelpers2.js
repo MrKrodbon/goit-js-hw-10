@@ -1,0 +1,2 @@
+import"./assets/styles-9de7b780.js";import{i}from"./assets/vendor-77e16229.js";document.querySelector("input");document.querySelectorAll("fieldset input");document.querySelector("button");document.addEventListener("DOMContentLoaded",()=>{i.settings({timeout:3e3,resetOnHover:!0,transitionIn:"flipInX",transitionOut:"flipOutX",position:"topRight"})});const r=t=>new Promise((e,o)=>{setTimeout(()=>{e?e("ok"):o(i.error({timeout:3e3,icon:"bi bi-check-circle-button",title:"Error",message:`❌ Rejected promise in ${t}ms`}))},t)});r(1e3);
+//# sourceMappingURL=commonHelpers2.js.map
