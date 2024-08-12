@@ -26,6 +26,16 @@ class Timer {
   }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  iziToast.settings({
+    timeout: 3000,
+    resetOnHover: true,
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    position: 'topRight',
+  });
+});
+
 const options = {
   enableTime: true,
   dateFormat: 'Y-m-d H:i',
@@ -37,7 +47,12 @@ const options = {
     if (currentDate < userSelectedDate) {
       startBtn.disabled = false;
     } else {
-      alert('Please choose a date in the future');
+      iziToast.error({
+        timeout: 3000,
+        icon: 'bi bi-check-circle-button',
+        title: 'Error',
+        message: 'Please choose a date in the future',
+      });
       startBtn.disabled = true;
       return;
     }
