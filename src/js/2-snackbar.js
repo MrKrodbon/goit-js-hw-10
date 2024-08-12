@@ -3,9 +3,10 @@ import iziToast from 'izitoast';
 // Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
 
-const inputCountdown = document.querySelector('input');
-const radioStateInputs = document.querySelectorAll('fieldset input');
-const submitBtn = document.querySelector('button');
+const inputCountdown = document.querySelector('input[name="delay"]');
+const radioStateArray = document.querySelectorAll('input[name="state"]');
+const createPromiseBtn = document.querySelector('button');
+createPromiseBtn.disabled = true;
 
 document.addEventListener('DOMContentLoaded', () => {
   iziToast.settings({
@@ -17,30 +18,72 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-const createPromise = (delay, state = false) => {
+const getRadioState = () => {
+  let isRadioSelected;
+  for (const radio of radioStateArray) {
+    if (radio.checked) {
+      if (radio.value == 'fulfilled') {
+        isRadioSelected = true;
+      } else {
+        isRadioSelected = false;
+      }
+      break;
+    }
+  }
+  return isRadioSelected;
+};
+
+const getDelayInput = () => Number(inputCountdown.value);
+
+const createPromise = (delay, state) => {
   return new Promise((resolve, rejected) => {
     setTimeout(() => {
       if (state) {
-        resolve(
-          iziToast.success({
-            timeout: 3000,
-            title: 'Success',
-            message: `✅ Fulfilled promise in ${delay}ms`,
-          })
-        );
+        resolve();
       } else {
-        rejected(
-          iziToast.error({
-            timeout: 3000,
-            icon: 'bi bi-check-circle-button',
-            title: 'Error',
-            message: `❌ Rejected promise in ${delay}ms`,
-          })
-        );
+        rejected();
       }
     }, delay);
   });
 };
 
-createPromise(1000, false);
-createPromise(1000, true);
+const createPromiseNotification = event => {
+  let delayValue = getDelayInput();
+  let selectedRadio = getRadioState();
+
+  createPromiseBtn.disabled = false;
+  createPromise(delayValue, selectedRadio)
+    .then(() => {
+      iziToast.success({
+        timeout: 3000,
+        title: 'Success',
+        message: `✅ Fulfilled promise in ${delayValue}ms`,
+      });
+    })
+    .catch(() => {
+      iziToast.error({
+        timeout: 3000,
+        title: 'Error',
+        message: `❌ Rejected promise in ${delayValue}ms`,
+      });
+    });
+  event.preventDefault();
+};
+
+const checkInputToZero = () => {
+  let delayValue = getDelayInput();
+  if (delayValue <= 0) {
+    createPromiseBtn.disabled = true;
+    iziToast.error({
+      timeout: 4000,
+      title: 'Attention!',
+      message: `Choose delay equal or more than 1ms`,
+    });
+  } else {
+    createPromiseBtn.disabled = false;
+  }
+};
+
+inputCountdown.addEventListener('change', checkInputToZero);
+
+createPromiseBtn.addEventListener('click', createPromiseNotification);

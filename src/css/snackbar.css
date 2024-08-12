@@ -1,0 +1,41 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 300px;
+}
+
+.form label {
+  margin-top: 20px;
+}
+
+.form input[type='number'],
+.form input[type='radio'] {
+  margin-top: 10px;
+}
+
+.form input[type='number'] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+fieldset legend {
+  padding: 0 5px;
+  font-weight: bold;
+}
+
+fieldset label {
+  margin-top: 10px;
+}
+
+fieldset label input[type='radio'] {
+  margin-right: 10px;
+  width: 15px;
+  height: 15px;
+}
