@@ -5,7 +5,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
-const currentDate = new Date();
+
 const startBtn = document.querySelector('button[data-start]');
 const inputDate = document.querySelector('input');
 startBtn.disabled = true;
@@ -43,6 +43,7 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    let currentDate = new Date();
     userSelectedDate = selectedDates[0];
     if (currentDate < userSelectedDate) {
       startBtn.disabled = false;
@@ -73,7 +74,6 @@ const onStartClick = () => {
       const currentDate = new Date();
       let secondsInFuture = userSelectedDate - currentDate;
       if (secondsInFuture <= 0) {
-        startBtn.disabled = false;
         inputDate.disabled = false;
         clearInterval(timerId);
       } else {
