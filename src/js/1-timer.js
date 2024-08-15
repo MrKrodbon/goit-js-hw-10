@@ -5,6 +5,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
+let timer;
 
 const startBtn = document.querySelector('button[data-start]');
 const inputDate = document.querySelector('input');
@@ -61,10 +62,9 @@ const options = {
 };
 
 flatpickr(inputDate, options);
-flatpickr('.calendar', {});
 
 const onStartClick = () => {
-  const timer = new Timer();
+  timer = new Timer();
   if (timer.isTimerActive) {
     return;
   } else {
@@ -78,8 +78,7 @@ const onStartClick = () => {
         clearInterval(timerId);
       } else {
         let countdownTimeLeft = convertMs(secondsInFuture);
-        updateTimer(countdownTimeLeft);
-        timer.addLeadingZero();
+        updateTimer(countdownTimeLeft, timer);
       }
     }, 1000);
   }
@@ -104,12 +103,12 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-function updateTimer({ days, hours, minutes, seconds }) {
-  let newTimer = new Timer();
-  newTimer.days.textContent = days;
-  newTimer.hours.textContent = hours;
-  newTimer.minutes.textContent = minutes;
-  newTimer.seconds.textContent = seconds;
+function updateTimer({ days, hours, minutes, seconds }, timer) {
+  timer.days.textContent = days;
+  timer.hours.textContent = hours;
+  timer.minutes.textContent = minutes;
+  timer.seconds.textContent = seconds;
+  timer.addLeadingZero();
 }
 
 startBtn.addEventListener('click', onStartClick);
